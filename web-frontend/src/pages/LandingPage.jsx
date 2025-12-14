@@ -1,23 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import Card from "../components/card";
 import PrimaryButton from "../components/primarybutton";
+import Navbar from "../components/navbar";
 
-const LandingPage = ({ onExplore, onOrder }) => {
+const LandingPage = () => {
+  const navigate = useNavigate();
   const [activeModel, setActiveModel] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   useEffect(() => {
     setIsVisible(true);
-    
+
     let interval;
     if (isAutoPlaying) {
       interval = setInterval(() => {
         setActiveModel((prev) => (prev + 1) % carModels.length);
       }, 5000);
     }
-    
+
     return () => {
       if (interval) clearInterval(interval);
     };
@@ -28,7 +31,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
       id: 1,
       name: "Nexus EV",
       type: "Electric Sedan",
-      price: "$45,999",
+      price: "₱45,999",
       range: "350 miles",
       features: ["Quantum Charging", "Neural Autopilot", "Holographic Display"],
       image: "https://hips.hearstapps.com/hmg-prod/images/2026-lexus-ev-exterior-111-6809022c48dc8.jpg?crop=0.841xw:1.00xh;0.0849xw,0&resize=2048:*",
@@ -39,7 +42,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
       id: 2,
       name: "Bugatti LVN",
       type: "Hypercar",
-      price: "$18,700,000",
+      price: "₱18,700,000",
       range: "260 miles",
       features: ["Quad-Turbo W16", "Carbon Fiber Body", "Exclusive Luxury Interior"],
       image: "https://bugatti-newsroom.imgix.net/fc5cfcbe-f01f-4ee2-b664-d26ed3ca11db/01_LVN_34-Front",
@@ -50,7 +53,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
       id: 3,
       name: "Koenigsegg Gemera",
       type: "Mega GT Hybrid",
-      price: "$1,700,000",
+      price: "₱1,700,000",
       range: "600 miles",
       features: ["Twin-Turbo Freevalve Engine", "Electric Torque Vectoring", "4-Seater Hyper Performance"],
       image: "https://m.netinfo.bg/media/images/50231/50231889/1180-663-koenigsegg-gemera.jpg",
@@ -117,7 +120,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
   const lineupCars = carImages.map((img, i) => ({
     id: i + 1,
     name: `Model ${i + 1}`,
-    price: `$${(40000 + i * 2500).toLocaleString()}`,
+    price: `₱${(40000 + i * 2500).toLocaleString()}`,
     image: img,
   }));
 
@@ -130,6 +133,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white w-screen overflow-x-hidden">
+      <Navbar />
       {/* Animated Background Elements */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <motion.div
@@ -157,9 +161,9 @@ const LandingPage = ({ onExplore, onOrder }) => {
           }}
           className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-full blur-3xl"
         />
-        
+
         {/* Grid Pattern */}
-        <div 
+        <div
           className="absolute inset-0 opacity-10"
           style={{
             backgroundImage: `
@@ -190,7 +194,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
             {/* Enhanced Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
             <div className={`absolute inset-0 bg-gradient-to-r ${carModels[activeModel].color} opacity-20`} />
-            
+
             {/* Animated Scan Lines */}
             <motion.div
               animate={{ y: ["0%", "100%"] }}
@@ -221,7 +225,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
           >
             {/* Car Badge */}
             <motion.div variants={itemVariants} className="space-y-2 mb-8">
-              <motion.span 
+              <motion.span
                 className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 text-blue-300 text-sm font-medium backdrop-blur-xl"
                 whileHover={{ scale: 1.05 }}
               >
@@ -235,19 +239,18 @@ const LandingPage = ({ onExplore, onOrder }) => {
             </motion.div>
 
             {/* Model Name */}
-            <motion.h1 
+            <motion.h1
               variants={itemVariants}
-              className={`${
-                carModels[activeModel].id === 3
-                  ? "text-5xl sm:text-6xl md:text-6xl lg:text-7xl"
-                  : "text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
-              } font-black mb-6 leading-tight bg-gradient-to-r from-white via-cyan-200 to-blue-200 bg-clip-text text-transparent text-justify`}
+              className={`${carModels[activeModel].id === 3
+                ? "text-5xl sm:text-6xl md:text-6xl lg:text-7xl"
+                : "text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
+                } font-black mb-6 leading-tight bg-gradient-to-r from-white via-cyan-200 to-blue-200 bg-clip-text text-transparent text-justify`}
             >
               {carModels[activeModel].name}
             </motion.h1>
 
             {/* Type and Description */}
-            <motion.p 
+            <motion.p
               variants={itemVariants}
               className="text-lg md:text-xl text-gray-300 mb-6 font-light leading-relaxed max-w-xl text-justify"
             >
@@ -268,7 +271,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
             </motion.p>
 
             {/* Features in Paragraph Form */}
-            <motion.p 
+            <motion.p
               variants={itemVariants}
               className="text-gray-400 text-base leading-relaxed max-w-xl text-justify"
             >
@@ -281,21 +284,21 @@ const LandingPage = ({ onExplore, onOrder }) => {
             </motion.p>
 
             {/* Buttons */}
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="flex flex-col sm:flex-row gap-4 justify-start pt-6"
             >
               <div className="flex w-full sm:w-auto gap-4">
-                <PrimaryButton 
-                  label="Quantum Reserve" 
-                  onClick={onOrder} 
-                  type="glowing" 
+                <PrimaryButton
+                  label="Quantum Reserve"
+                  onClick={() => navigate('/order')}
+                  type="glowing"
                   className="w-44 sm:w-48 text-base px-6 py-3"
                 />
-                <PrimaryButton 
-                  label="Explore Dimensions" 
-                  onClick={onExplore} 
-                  type="outline" 
+                <PrimaryButton
+                  label="Explore Dimensions"
+                  onClick={() => navigate('/shop')}
+                  type="outline"
                   className="w-44 sm:w-48 text-base px-6 py-3 border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
                 />
               </div>
@@ -311,11 +314,10 @@ const LandingPage = ({ onExplore, onOrder }) => {
                 key={index}
                 onClick={() => setActiveModel(index)}
                 whileHover={{ scale: 1.2 }}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  activeModel === index 
-                    ? `bg-gradient-to-r ${carModels[index].color} scale-125 glow-cyan` 
-                    : 'bg-white/50 hover:bg-white/80'
-                }`}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${activeModel === index
+                  ? `bg-gradient-to-r ${carModels[index].color} scale-125 glow-cyan`
+                  : 'bg-white/50 hover:bg-white/80'
+                  }`}
               />
             ))}
           </div>
@@ -329,7 +331,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
         >
         </motion.div>
       </section>
-      
+
       {/* Car Lineup Section */}
       <section className="relative w-screen py-24 bg-gradient-to-b from-gray-900/60 to-gray-800/80 border-t border-gray-700/30 overflow-hidden">
         <div className="w-full text-center px-6">
@@ -431,7 +433,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
         </div>
 
         {/* Hide scrollbar globally for this container */}
-        <style jsx>{`
+        <style>{`
           #car-scroll::-webkit-scrollbar {
             display: none;
           }
@@ -457,7 +459,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
       >
         {/* Text Side */}
         <div className="w-full flex flex-col justify-center text-left space-y-6">
-          
+
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -499,13 +501,13 @@ const LandingPage = ({ onExplore, onOrder }) => {
           >
             <PrimaryButton
               label="Explore"
-              onClick={onExplore}
+              onClick={() => navigate('/shop')}
               type="glowing"
               className="w-40 sm:w-44 text-base px-6 py-3"
             />
             <PrimaryButton
               label="Configure"
-              onClick={onOrder}
+              onClick={() => navigate('/order')}
               type="outline"
               className="w-40 sm:w-44 text-base px-6 py-3 border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
             />
@@ -563,7 +565,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
           </h2>
 
           <p className="text-lg text-gray-400 leading-relaxed text-left">
-            Redefining and reinventing what it means to be a tourer.  
+            Redefining and reinventing what it means to be a tourer.
             A new standard of driver connection and innovative luxury.
           </p>
 
@@ -593,7 +595,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
           </div>
         </div>
       </section>
-          
+
       {/* Premium Features Section */}
       <section className="py-28 w-screen bg-gradient-to-b from-gray-900 via-gray-950 to-black border-t border-gray-800/50">
         <div className="w-full px-6 lg:px-12 text-center">
@@ -675,7 +677,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
                   icon={feature.icon}
                   title={feature.title}
                   description={feature.description}
-                  onClick={onExplore}
+                  onClick={() => navigate('/shop')}
                   delay={index * 0.2}
                 />
               </motion.div>
@@ -760,7 +762,7 @@ const LandingPage = ({ onExplore, onOrder }) => {
       </footer>
 
       {/* Custom CSS for Glow Effects */}
-      <style jsx>{`
+      <style>{`
         .glow-blue {
           box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
         }

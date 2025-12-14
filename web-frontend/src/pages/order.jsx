@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import PrimaryButton from "../components/primarybutton";
+import Navbar from "../components/navbar";
 
-const Order = ({ goBack }) => {
+const Order = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedModel, setSelectedModel] = useState(null);
   const [selectedColor, setSelectedColor] = useState("");
@@ -52,8 +53,8 @@ const Order = ({ goBack }) => {
   };
 
   const toggleFeature = (featureId) => {
-    setSelectedFeatures(prev => 
-      prev.includes(featureId) 
+    setSelectedFeatures(prev =>
+      prev.includes(featureId)
         ? prev.filter(id => id !== featureId)
         : [...prev, featureId]
     );
@@ -67,29 +68,27 @@ const Order = ({ goBack }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white w-screen overflow-x-hidden">
-      
+      <Navbar />
+
       {/* Progress Bar*/}
       <div className="bg-white border-b border-gray-200 py-6 w-screen">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center w-full">
             {steps.map((step, index) => (
               <div key={step.number} className="flex items-center">
-                <div className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold ${
-                  currentStep >= step.number 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-gray-200 text-gray-500'
-                }`}>
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold ${currentStep >= step.number
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-200 text-gray-500'
+                  }`}>
                   {step.number}
                 </div>
-                <span className={`ml-2 font-medium ${
-                  currentStep >= step.number ? 'text-indigo-600' : 'text-gray-500'
-                }`}>
+                <span className={`ml-2 font-medium ${currentStep >= step.number ? 'text-indigo-600' : 'text-gray-500'
+                  }`}>
                   {step.title}
                 </span>
                 {index < steps.length - 1 && (
-                  <div className={`w-16 h-0.5 mx-4 ${
-                    currentStep > step.number ? 'bg-indigo-600' : 'bg-gray-200'
-                  }`}></div>
+                  <div className={`w-16 h-0.5 mx-4 ${currentStep > step.number ? 'bg-indigo-600' : 'bg-gray-200'
+                    }`}></div>
                 )}
               </div>
             ))}
@@ -127,7 +126,7 @@ const Order = ({ goBack }) => {
                     <h3 className="text-xl sm:text-2xl font-bold mb-2">{model.name}</h3>
                     <p className="text-gray-500 mb-4">{model.description}</p>
                     <div className="text-2xl sm:text-3xl font-bold">
-                      ${model.basePrice.toLocaleString()}
+                      ₱{model.basePrice.toLocaleString()}
                     </div>
                   </div>
                 </div>
@@ -135,9 +134,9 @@ const Order = ({ goBack }) => {
             </div>
 
             <div>
-              <PrimaryButton 
-                label="Continue to Customization" 
-                onClick={() => setCurrentStep(2)} 
+              <PrimaryButton
+                label="Continue to Customization"
+                onClick={() => setCurrentStep(2)}
                 type="primary"
                 disabled={!selectedModel}
                 className="mt-20"
@@ -145,7 +144,7 @@ const Order = ({ goBack }) => {
             </div>
           </div>
         )}
-        
+
         {/* Step 2: Customization */}
         {currentStep === 2 && (
           <div className="w-full">
@@ -206,10 +205,9 @@ const Order = ({ goBack }) => {
                       <div
                         className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 shadow-md 
                           overflow-hidden flex items-center justify-center transition-all duration-300
-                          ${
-                            selectedColor === color.value
-                              ? "border-cyan-400 scale-110 shadow-[0_0_20px_2px_rgba(34,211,238,0.6)]"
-                              : "border-gray-200 hover:border-cyan-400 hover:scale-105"
+                          ${selectedColor === color.value
+                            ? "border-cyan-400 scale-110 shadow-[0_0_20px_2px_rgba(34,211,238,0.6)]"
+                            : "border-gray-200 hover:border-cyan-400 hover:scale-105"
                           }
                         `}
                       >
@@ -222,16 +220,15 @@ const Order = ({ goBack }) => {
 
                       <div className="text-center mt-2">
                         <p
-                          className={`font-medium text-xs sm:text-sm ${
-                            selectedColor === color.value
-                              ? "text-cyan-400 font-semibold"
-                              : "text-gray-800 group-hover:text-cyan-400"
-                          }`}
+                          className={`font-medium text-xs sm:text-sm ${selectedColor === color.value
+                            ? "text-cyan-400 font-semibold"
+                            : "text-gray-800 group-hover:text-cyan-400"
+                            }`}
                         >
                           {color.name}
                         </p>
                         {color.price > 0 && (
-                          <p className="text-xs text-gray-500">+${color.price}</p>
+                          <p className="text-xs text-gray-500">+₱{color.price}</p>
                         )}
                       </div>
                     </div>
@@ -248,11 +245,10 @@ const Order = ({ goBack }) => {
                   {features.map((feature) => (
                     <div
                       key={feature.id}
-                      className={`border-2 rounded-2xl p-4 cursor-pointer transition-all w-full ${
-                        selectedFeatures.includes(feature.id)
-                          ? "border-cyan-400 bg-cyan-400/10 shadow-[0_0_20px_2px_rgba(34,211,238,0.3)]"
-                          : "border-gray-200 hover:border-cyan-400 hover:bg-cyan-400/5"
-                      }`}
+                      className={`border-2 rounded-2xl p-4 cursor-pointer transition-all w-full ${selectedFeatures.includes(feature.id)
+                        ? "border-cyan-400 bg-cyan-400/10 shadow-[0_0_20px_2px_rgba(34,211,238,0.3)]"
+                        : "border-gray-200 hover:border-cyan-400 hover:bg-cyan-400/5"
+                        }`}
                       onClick={() => toggleFeature(feature.id)}
                     >
                       <div className="flex justify-between items-center w-full">
@@ -261,15 +257,14 @@ const Order = ({ goBack }) => {
                             {feature.name}
                           </div>
                           <div className="text-cyan-400">
-                            +${feature.price.toLocaleString()}
+                            +₱{feature.price.toLocaleString()}
                           </div>
                         </div>
                         <div
-                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                            selectedFeatures.includes(feature.id)
-                              ? "bg-cyan-400 border-cyan-400 shadow-[0_0_10px_2px_rgba(34,211,238,0.4)]"
-                              : "border-gray-400"
-                          }`}
+                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${selectedFeatures.includes(feature.id)
+                            ? "bg-cyan-400 border-cyan-400 shadow-[0_0_10px_2px_rgba(34,211,238,0.4)]"
+                            : "border-gray-400"
+                            }`}
                         >
                           {selectedFeatures.includes(feature.id) && (
                             <svg
@@ -299,7 +294,7 @@ const Order = ({ goBack }) => {
               <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
                   <div className="text-xl sm:text-2xl font-bold text-cyan-400">
-                    Total: ${calculateTotal().toLocaleString()}
+                    Total: ₱{calculateTotal().toLocaleString()}
                   </div>
                   <div className="text-gray-400">Including all selected options</div>
                 </div>
@@ -342,7 +337,7 @@ const Order = ({ goBack }) => {
                         <div className="text-gray-400">Base Model</div>
                       </div>
                       <div className="text-lg font-semibold text-cyan-400">
-                        ${selectedModel?.basePrice.toLocaleString()}
+                        ₱{selectedModel?.basePrice.toLocaleString()}
                       </div>
                     </div>
 
@@ -352,7 +347,7 @@ const Order = ({ goBack }) => {
                           {colors.find((c) => c.value === selectedColor)?.name} Color
                         </div>
                         <div className="text-lg font-semibold text-cyan-400">
-                          +$
+                          +₱
                           {colors
                             .find((c) => c.value === selectedColor)
                             ?.price.toLocaleString()}
@@ -369,7 +364,7 @@ const Order = ({ goBack }) => {
                         >
                           <div className="font-semibold text-white">{feature.name}</div>
                           <div className="text-lg font-semibold text-cyan-400">
-                            +${feature.price.toLocaleString()}
+                            +₱{feature.price.toLocaleString()}
                           </div>
                         </div>
                       ) : null;
@@ -380,7 +375,7 @@ const Order = ({ goBack }) => {
                         Total Amount
                       </div>
                       <div className="text-xl sm:text-2xl font-bold text-cyan-400">
-                        ${calculateTotal().toLocaleString()}
+                        ₱{calculateTotal().toLocaleString()}
                       </div>
                     </div>
                   </div>
